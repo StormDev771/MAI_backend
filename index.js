@@ -79,6 +79,7 @@ async function getWeather(lat, lon) {
       data.daily.wind_speed_10m_max[index],
     ];
   });
+  console.log("Weather data from Open-Meteo:", result);
   return result;
 }
 
@@ -140,13 +141,14 @@ async function calculateMosquitoIndex(
 }
 
 async function getMAILevel(data) {
-  // ✅ Build the time: level object
+  // Build the time: level object
   const output = {};
 
   for (const [date, [temp, humidity, rainfall, wind]] of Object.entries(data)) {
     const result = await calculateMosquitoIndex(temp, humidity, rainfall, wind);
     output[date] = result.riskLevel;
   }
+  console.log("Calculated MAI levels:", output);
   return output;
 }
 
