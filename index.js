@@ -25,7 +25,7 @@ app.post("/api/weather-summary", async (req, res) => {
   console.log(req.body);
   if (!region) return res.status(400).json({ error: "Missing region" });
   try {
-    const prompt = `${region}`;
+    const prompt = `${region} Please analyzed the past 14 days of weather data and the forecast for the next 7 days to calculate the Mosquito Activity Index (MAI). Provide a day-by-day forecast of the MAI for the next 7 days, including risk levels and explanations.`;
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
