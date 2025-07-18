@@ -25,15 +25,8 @@ app.post("/api/weather-summary", async (req, res) => {
   console.log(req.body);
   if (!region) return res.status(400).json({ error: "Missing region" });
   try {
-    const prompt = `${region} Please analyzed the past 14 days of weather data and the forecast for the next 7 days to calculate the Mosquito Activity Index (MAI). Provide a day-by-day forecast of the MAI for the next 7 days, including risk levels and explanations.`;
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: `You are an AI chatbot that specializes in weather analysis and calculating the Mosquito Activity Index (MAI). You act as both a weather expert and a public health advisor.
-
-**Your task:**
+    const prompt = `${region} is the user’s input. Please respond to this according to the system prompt.
+    **Your task:**
 
 When a user asks about the MAI (Mosquito Activity Index) for a specific region, you must respond based on accurate data analysis, using the following logic:
 
@@ -68,7 +61,14 @@ When a user asks about the MAI (Mosquito Activity Index) for a specific region, 
      * E.g., for “Severe” → “Use repellents, avoid outdoor exposure in early morning and evening, and eliminate standing water.”
 
 **Tone & Style:**
-Communicate clearly, professionally, and informatively — suitable for a customer service chat setting.`,
+Communicate clearly, professionally, and informatively — suitable for a customer service chat setting.
+    `;
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: `You are an AI chatbot that specializes in weather analysis and calculating the Mosquito Activity Index (MAI). You act as both a weather expert and a public health advisor.`,
         },
         { role: "user", content: prompt },
       ],
