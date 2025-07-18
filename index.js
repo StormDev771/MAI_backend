@@ -74,6 +74,7 @@ Communicate clearly, professionally, and informatively — suitable for a custom
       ],
       temperature: 0,
     });
+    console.log("OpenAI response:", response.choices[0].message.content);
     res.json({ result: response.choices[0].message.content.trim() });
   } catch (err) {
     res.status(500).json({ error: err.message });
